@@ -1,6 +1,6 @@
 # DeepSeek Usage Monitor
 
-A VS Code extension that shows your DeepSeek balance and today's usage in the status bar — no browser tab required.
+A VS Code extension that shows your DeepSeek balance and today's usage in the status bar. No browser tab required.
 
 ```
 $(pulse) $18.28 | today $0.61
@@ -64,13 +64,13 @@ To obtain the token:
 1. Sign in at <https://platform.deepseek.com/usage>.
 2. Open DevTools (<kbd>F12</kbd>) → **Network** tab → filter **Fetch/XHR**.
 3. Reload the page.
-4. Click a request to `api/v0/usage/...` — for example `amount?start=...&end=...&tz=...`.
+4. Click a request to `api/v0/usage/...`, for example `amount?start=...&end=...&tz=...`.
 5. In **Headers → Request Headers**, copy the value of `authorization` (it looks like `Bearer eyJ...`).
 6. In VS Code: click the status bar item → **Set usage token** → paste it.
 
 If the tooltip reports a block or a 403, copy the entire `Cookie` request header instead and use **Set cf_clearance cookie**.
 
-> The session token expires periodically. When it does, the status bar shows `usage: token expired` and the balance keeps updating — just repeat these steps.
+> The session token expires periodically. When it does, the status bar shows `usage: token expired` and the balance keeps updating. Just repeat these steps.
 
 > ⚠️ Treat this token like a password: it grants full access to your account. Never paste it into an issue, a chat or a screenshot. If it leaks, sign out and back in on the platform to invalidate it.
 
@@ -110,7 +110,7 @@ Match `deepseekUsage.timezone` to the timezone selected on the DeepSeek platform
 
 ## Data sources
 
-### Balance — official API
+### Balance (official API)
 
 ```
 GET https://api.deepseek.com/user/balance
@@ -119,7 +119,7 @@ Authorization: Bearer sk-...
 
 Returns `is_available` and a `balance_infos` array with per-currency `total_balance`, `granted_balance` and `topped_up_balance` (all as strings).
 
-### Usage — internal, unofficial endpoints
+### Usage (internal, unofficial endpoints)
 
 ```
 GET https://platform.deepseek.com/api/v0/usage/by_api_key/amount?start=<unix>&end=<unix>&tz=<offset>
@@ -127,9 +127,9 @@ GET https://platform.deepseek.com/api/v0/usage/by_api_key/cost?start=<unix>&end=
 Authorization: Bearer <platform session token>
 ```
 
-- `start` / `end` are unix **seconds**. `tz` is the negated timezone offset in seconds, i.e. `new Date().getTimezoneOffset() * 60` — `-25200` for GMT+7. This reproduces exactly what the `/usage` page itself sends.
+- `start` / `end` are unix **seconds**. `tz` is the negated timezone offset in seconds, i.e. `new Date().getTimezoneOffset() * 60`, which is `-25200` for GMT+7. This reproduces exactly what the `/usage` page itself sends.
 - The response is `data.biz_data.series[].buckets[]` (for `cost`, `series` lives under `data.biz_data.data[]`, grouped by `currency`) with `bucket = 3600`. Because one bucket is one hour, the hourly breakdown and the per-model split come from the same request.
-- The API key cannot authenticate these endpoints. They are **unofficial and may change or disappear without notice** — that is why the parser treats an unknown shape as "unavailable" rather than failing.
+- The API key cannot authenticate these endpoints. They are **unofficial and may change or disappear without notice**, which is why the parser treats an unknown shape as "unavailable" rather than failing.
 
 ## Security and privacy
 
@@ -167,7 +167,7 @@ npm run watch        # tsc in watch mode
 npm run package      # build the .vsix
 ```
 
-Press <kbd>F5</kbd> to launch an Extension Development Host. To debug a live issue, run **DeepSeek: Diagnostics (open log)** and read the output channel; it reports which endpoint answered, the HTTP error code, and the *field names* of an unrecognised response — never credentials or response values.
+Press <kbd>F5</kbd> to launch an Extension Development Host. To debug a live issue, run **DeepSeek: Diagnostics (open log)** and read the output channel; it reports which endpoint answered, the HTTP error code, and the *field names* of an unrecognised response. Credentials and response values are never logged.
 
 ## Limitations
 
