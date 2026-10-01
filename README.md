@@ -8,6 +8,16 @@ $(pulse) $18.28 | today $0.61
 
 Hover for a full breakdown, click for quick actions.
 
+## Preview
+
+![The status bar item and its tooltip](docs/preview.png)
+
+The status bar item on the right shows the balance and today's cost. Hovering it opens
+the tooltip: today's totals plus an hourly table naming the model used in each hour.
+
+<sub>This preview is rendered from [`docs/preview.html`](docs/preview.html), which
+reproduces the real strings and layout.</sub>
+
 ## Features
 
 - **Status bar item** on the right, high priority, showing your topped-up balance and today's cost.

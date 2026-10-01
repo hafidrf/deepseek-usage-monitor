@@ -11,5 +11,8 @@ node_modules/**
 *.vsix
 _bak/**
 
+# Keep docs/preview.png: README references it, and a missing image fails packaging.
+docs/preview.html
+
 # Dev-only: the assertions are not needed at runtime
 out/selfcheck.js
