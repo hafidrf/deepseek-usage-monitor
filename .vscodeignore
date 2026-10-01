@@ -1,0 +1,15 @@
+# Ship only what the extension needs at runtime.
+# `out/` must stay included — package.json "main" points at out/extension.js.
+.vscode/**
+src/**
+tsconfig.json
+**/*.ts
+**/*.map
+.gitignore
+.vscodeignore
+node_modules/**
+*.vsix
+_bak/**
+
+# Dev-only: the assertions are not needed at runtime
+out/selfcheck.js

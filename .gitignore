@@ -1,0 +1,17 @@
+# Build output
+out/
+*.tsbuildinfo
+
+# Dependencies
+node_modules/
+
+# Packaged extension
+*.vsix
+
+# Editor and OS noise
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*

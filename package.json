@@ -1,0 +1,140 @@
+{
+  "name": "deepseek-usage-monitor",
+  "displayName": "DeepSeek Usage Monitor",
+  "description": "Balance and daily usage for your DeepSeek account, right in the VS Code status bar.",
+  "version": "1.0.0",
+  "publisher": "hafidrf",
+  "license": "MIT",
+  "author": {
+    "name": "hafidrf"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hafidrf/deepseek-usage-monitor.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hafidrf/deepseek-usage-monitor/issues"
+  },
+  "homepage": "https://github.com/hafidrf/deepseek-usage-monitor#readme",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "deepseek",
+    "usage",
+    "balance",
+    "billing",
+    "cost",
+    "tokens",
+    "status bar",
+    "monitor",
+    "llm"
+  ],
+  "galleryBanner": {
+    "color": "#143C78",
+    "theme": "dark"
+  },
+  "main": "./out/extension.js",
+  "icon": "icon.png",
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "deepseekUsage.refresh",
+        "title": "Refresh now",
+        "category": "DeepSeek"
+      },
+      {
+        "command": "deepseekUsage.setApiKey",
+        "title": "Set API key",
+        "category": "DeepSeek"
+      },
+      {
+        "command": "deepseekUsage.setToken",
+        "title": "Set usage token",
+        "category": "DeepSeek"
+      },
+      {
+        "command": "deepseekUsage.setCookie",
+        "title": "Set cf_clearance cookie",
+        "category": "DeepSeek"
+      },
+      {
+        "command": "deepseekUsage.diagnose",
+        "title": "Diagnostics (open log)",
+        "category": "DeepSeek"
+      },
+      {
+        "command": "deepseekUsage.openUsagePage",
+        "title": "Open the Usage page in a browser",
+        "category": "DeepSeek"
+      }
+    ],
+    "configuration": {
+      "title": "DeepSeek Usage Monitor",
+      "properties": {
+        "deepseekUsage.refreshIntervalSeconds": {
+          "type": "number",
+          "default": 60,
+          "minimum": 30,
+          "description": "Polling interval in seconds. Minimum 30: platform data can lag up to 5 minutes, so polling faster only wastes requests."
+        },
+        "deepseekUsage.lowBalanceThreshold": {
+          "type": "number",
+          "default": 5,
+          "minimum": 0,
+          "description": "Show a warning colour and a one-time notification when the topped-up balance drops below this amount (USD)."
+        },
+        "deepseekUsage.position": {
+          "type": "string",
+          "enum": [
+            "left",
+            "right"
+          ],
+          "enumDescriptions": [
+            "Left side of the status bar",
+            "Right side of the status bar"
+          ],
+          "default": "right",
+          "description": "Which side of the status bar the item appears on."
+        },
+        "deepseekUsage.textFormat": {
+          "type": "string",
+          "enum": [
+            "compact",
+            "full"
+          ],
+          "enumDescriptions": [
+            "\"$(pulse) $18.28 | today $0.61\"",
+            "Adds request and token counts"
+          ],
+          "default": "compact",
+          "description": "How much detail to show in the status bar text."
+        },
+        "deepseekUsage.timezone": {
+          "type": "string",
+          "default": "Asia/Jakarta",
+          "description": "IANA timezone used for the daily window, the hourly table and timestamps. Match the timezone selected on the DeepSeek platform, otherwise the day boundary will not line up."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -w -p ./",
+    "vscode:prepublish": "npm run compile",
+    "selfcheck": "npm run compile && node out/selfcheck.js",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^18.19.0",
+    "@types/vscode": "^1.85.0",
+    "@vscode/vsce": "^2.26.0",
+    "typescript": "^5.4.0"
+  }
+}
