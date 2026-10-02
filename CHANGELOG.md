@@ -5,6 +5,12 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.1] - 2026-10-03
+
+### Fixed
+
+- **The reported version came from the wrong place.** The tooltip read its version from the extension manifest on disk instead of from the code that is actually running. Installing a new build while a window stayed open could therefore display the new version number while rendering the old code, which made a stale extension host look like "the extension reverted to an older release". The version is now compiled into the bundle (`src/version.ts`), `npm run selfcheck` fails when it drifts from `package.json`, and a disagreement with the registered manifest is logged as a warning on activation.
+
 ## [1.0.0] - 2026-10-01
 
 First public release.
