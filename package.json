@@ -2,7 +2,7 @@
   "name": "deepseek-usage-monitor",
   "displayName": "DeepSeek Usage Monitor",
   "description": "Balance and daily usage for your DeepSeek account, right in the VS Code status bar.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "publisher": "hafidrf",
   "license": "MIT",
   "author": {
@@ -135,6 +135,8 @@
     "@types/node": "^18.19.0",
     "@types/vscode": "^1.85.0",
     "@vscode/vsce": "^2.26.0",
+    "dotenv": "^8.2.0",
+    "node-fetch": "^3.3.2",
     "typescript": "^5.4.0"
   }
 }

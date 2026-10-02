@@ -8,6 +8,7 @@ import {
 } from './deepseekClient';
 import { initLog, log } from './log';
 import { normalizeUsage, parseUsage, shapeOf, todayWindow } from './usageParser';
+import { CODE_VERSION } from './version';
 import { StatusBarController, Snapshot, UiConfig } from './statusBar';
 
 // ---------------------------------------------------------------------------
@@ -29,7 +30,8 @@ const K_SNAPSHOT = 'deepseekUsage.snapshot.v2';
 // Pause polling after this long without window focus. Manual refresh still works.
 const UNFOCUSED_PAUSE_MS = 10 * 60_000;
 
-let EXT_VERSION = 'dev';
+// The version of the *running code*, not of the manifest on disk. See version.ts.
+let EXT_VERSION = CODE_VERSION;
 let controller: StatusBarController | undefined;
 let timer: NodeJS.Timeout | undefined;
 let unfocusedSince: number | undefined;
@@ -54,8 +56,19 @@ export async function activate(context: vscode.ExtensionContext) {
 
   context.subscriptions.push(initLog());
   setClientLogger(log);
-  EXT_VERSION = String(vscode.extensions.getExtension(EXT_ID)?.packageJSON?.version ?? 'dev');
   log(`activate v${EXT_VERSION}`);
+
+  // If these disagree, the running extension host is executing an older build
+  // than the one registered on disk. That happens when a new version is
+  // installed while the window stays open, and it is worth surfacing because
+  // it otherwise looks like the extension "reverted" to an older release.
+  const manifestVersion = vscode.extensions.getExtension(EXT_ID)?.packageJSON?.version;
+  if (manifestVersion && manifestVersion !== EXT_VERSION) {
+    log(
+      `WARNING: running code v${EXT_VERSION} but v${manifestVersion} is registered on disk. ` +
+        'Quit and reopen VS Code to load the installed build.'
+    );
+  }
 
   const alignmentFor = (pos: string) =>
     pos === 'left' ? vscode.StatusBarAlignment.Left : vscode.StatusBarAlignment.Right;

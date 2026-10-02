@@ -15,6 +15,7 @@ import {
   shapeOf,
 } from './usageParser';
 import { ClientError } from './deepseekClient';
+import { CODE_VERSION } from './version';
 
 // 2026-10-01 00:00 GMT+7 — the real value observed in the platform's own request.
 const START = 1790787600;
@@ -153,6 +154,16 @@ for (const ms of [0, 1, 499, 500, 501, 999]) {
 
 // 5. ClientError carries a code, never a response body.
 assert.strictEqual(new ClientError('auth', 'unauthorized').code, 'auth');
+
+// 5c. The compiled-in version must match package.json. If these drift, the
+//     tooltip reports the wrong build and a stale extension host becomes
+//     impossible to spot.
+const pkgVersion = require('../package.json').version as string;
+assert.strictEqual(
+  CODE_VERSION,
+  pkgVersion,
+  'src/version.ts must be bumped together with package.json'
+);
 
 // 6. Regression: a cache written by an older schema must not blow up.
 const stale = normalizeUsage({
